@@ -9,7 +9,7 @@
       changed_when: false
 
   tasks:
-    - include: tasks/factos.yml
+#    - include: tasks/factos.yml
     - include: tasks/cron_job_ansible_pull.yml
     - include: tasks/paquetes_apt.yml
     - include: tasks/anaconda.yml
