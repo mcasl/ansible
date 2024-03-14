@@ -11,6 +11,5 @@
       - tmux
       - wireguard
       - wakeonlan
-      - virtualbox
       - parallel
       
