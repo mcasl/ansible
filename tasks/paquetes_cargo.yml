@@ -12,7 +12,7 @@
       - zoxide
       - rnr
       - mdcat
-    path: /root/.cargo/bin/
+    path: /usr/local
     state: latest
   environment:
-    CARGO_HOME: /root/.cargo
+    PATH: "{{ ansible_env.PATH }}:/root/.cargo/bin"
