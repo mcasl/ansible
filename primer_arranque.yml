@@ -5,7 +5,7 @@
   vars_files:
     - passwords.yml
   vars:
-    ansible_user: root
+    ansible_user: ansible
 
   tasks:        
     - name: Fully apt upgrade the system
@@ -28,21 +28,6 @@
         password: "{{ansible_ansible_user_password | password_hash('sha512')}}"
         state: present
 
-    - name: Asegurar que el grupo mcasl existe
-      ansible.builtin.group:
-        name: mcasl
-        system: true
-        state: present
-        
-    - name: Añadir usuario ansible
-      ansible.builtin.user:
-        name: mcasl
-        group: mcasl
-        system: false
-        update_password: always
-        password: "{{ansible_mcasl_user_password | password_hash('sha512')}}"
-        state: present
-
         
     - name: sudoers | Create sudoers.d files
       copy:
@@ -54,15 +39,6 @@
         force: yes
         validate: /usr/sbin/visudo -csf %s
 
-    - name: sudoers | Create sudoers.d files
-      copy:
-        content: 'mcasl ALL=(ALL) NOPASSWD: ALL'
-        dest: /etc/sudoers.d/sudoer_mcasl
-        owner: root
-        group: root
-        mode: "0440" # Set proper permissions
-        force: yes
-        validate: /usr/sbin/visudo -csf %s
 
 
     - name: Add SSH public key to authorized_keys for the ansible user
@@ -74,14 +50,6 @@
         group: ansible
         mode: "0600"
 
-    - name: Add SSH public key to authorized_keys for mcasl
-      lineinfile:
-        path: /home/mcasl/.ssh/authorized_keys
-        line: "{{ mcasl_ssh_public_key }}"
-        create: yes
-        owner: mcasl
-        group: mcasl
-        mode: "0600"
 
     - name: Install some packages
       apt:

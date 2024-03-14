@@ -1,1 +1,2 @@
-proyectos
+[servers]
+proyectos.unileon.es:200 ansible_ssh_port=200
