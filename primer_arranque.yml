@@ -1,0 +1,95 @@
+---
+- name: Correr la configuración básica tras una instalación de sistema operativo
+  hosts: all
+  become: true
+  vars_files:
+    - passwords.yml
+  vars:
+    ansible_user: root
+
+  tasks:        
+    - name: Fully apt upgrade the system
+      apt:
+        upgrade: full
+        update_cache: yes
+        
+    - name: Asegurar que el grupo ansible existe
+      ansible.builtin.group:
+        name: ansible
+        system: true
+        state: present
+        
+    - name: Añadir usuario ansible
+      ansible.builtin.user:
+        name: ansible
+        group: ansible
+        system: true
+        update_password: always
+        password: "{{ansible_ansible_user_password | password_hash('sha512')}}"
+        state: present
+
+    - name: Asegurar que el grupo mcasl existe
+      ansible.builtin.group:
+        name: mcasl
+        system: true
+        state: present
+        
+    - name: Añadir usuario ansible
+      ansible.builtin.user:
+        name: mcasl
+        group: mcasl
+        system: false
+        update_password: always
+        password: "{{ansible_mcasl_user_password | password_hash('sha512')}}"
+        state: present
+
+        
+    - name: sudoers | Create sudoers.d files
+      copy:
+        content: 'ansible ALL=(ALL) NOPASSWD: ALL'
+        dest: /etc/sudoers.d/sudoer_ansible
+        owner: root
+        group: root
+        mode: "0440" # Set proper permissions
+        force: yes
+        validate: /usr/sbin/visudo -csf %s
+
+    - name: sudoers | Create sudoers.d files
+      copy:
+        content: 'mcasl ALL=(ALL) NOPASSWD: ALL'
+        dest: /etc/sudoers.d/sudoer_mcasl
+        owner: root
+        group: root
+        mode: "0440" # Set proper permissions
+        force: yes
+        validate: /usr/sbin/visudo -csf %s
+
+
+    - name: Add SSH public key to authorized_keys for the ansible user
+      lineinfile:
+        path: /home/ansible/.ssh/authorized_keys
+        line: "{{ ansible_ssh_public_key }}"
+        create: yes
+        owner: ansible
+        group: ansible
+        mode: "0600"
+
+    - name: Add SSH public key to authorized_keys for mcasl
+      lineinfile:
+        path: /home/mcasl/.ssh/authorized_keys
+        line: "{{ mcasl_ssh_public_key }}"
+        create: yes
+        owner: mcasl
+        group: mcasl
+        mode: "0600"
+
+    - name: Install some packages
+      apt:
+        name: 
+          - curl
+          - git
+          - openssh-server
+        state: present
+
+    - name: Instalar community.general para tener acceso al módulo de cargo en ansible
+      shell: ansible-galaxy collection install community.general
