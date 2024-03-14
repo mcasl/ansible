@@ -12,7 +12,7 @@
       - zoxide
       - rnr
       - mdcat
-    path: /usr/local
+    path: /root/.cargo/bin/
     state: latest
   environment:
     CARGO_HOME: /root/.cargo
