@@ -5,4 +5,4 @@
     name: "Ansible Pull"
     minute: "0"
     hour: "*"
-    job: "/usr/bin/ansible-pull -o -U https://github.com/mcasl/ansible_dimia.git local.yml"
+    job: "/usr/bin/ansible-pull -o -U https://github.com/mcasl/ansible.git local.yml"
