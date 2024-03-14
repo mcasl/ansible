@@ -1,0 +1,16 @@
+- name: Instalar paquetes varios
+  package:
+    name:
+      - make
+      - sshpass
+      - pkg-config
+      - libssl-dev
+      - curl
+      - htop
+      - mc
+      - tmux
+      - wireguard
+      - wakeonlan
+      - virtualbox
+      - parallel
+      

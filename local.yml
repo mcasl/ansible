@@ -1,0 +1,25 @@
+- hosts: localhost
+  connection: local
+  become: true
+
+  pre_tasks:
+    - name: Actualizar los repositorios de apt
+      apt:
+        update_cache: yes
+      changed_when: false
+
+  tasks:
+    - include: tasks/factos.yml
+    - include: tasks/cron_job_ansible_pull.yml
+    - include: tasks/paquetes.yml
+    - include: tasks/anaconda.yml
+    - include: tasks/practicas_rustup.yml
+    - include: tasks/root_rustup.yml
+    - include: tasks/administrador_rustup.yml
+    - include: tasks/paquetes_cargo.yml
+    - include: tasks/tailscale.yml
+#    - include: tasks/email_final.yml
+    
+    
+
+

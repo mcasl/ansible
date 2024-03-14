@@ -1,0 +1,18 @@
+- name: Instalar lsd para todos
+  community.general.cargo:
+    name: 
+      - lsd
+      - bat
+      - exa 
+      - fd-find
+      - procs
+      - ripgrep
+      - ytop
+      - tealdeer
+      - zoxide
+      - rnr
+      - mdcat
+      
+    path: /usr/local
+    state: latest
+    executable: /root/.cargo/bin/cargo
