@@ -1,8 +1,9 @@
-- name: Comprobar si cargo está instalado para el usuario root
-  become: true
+- name: Comprobar si cargo está instalado  para el usuario mcasl
+  become_user: "mcasl"
   shell: command -v cargo
   register: cargo_exists
   ignore_errors: yes
+  failed_when: false
 
 - name: Descargar rust
   when: cargo_exists is failed
@@ -14,19 +15,21 @@
   tags:
     - rust
 
-- name: Instalar rust/cargo para el usuario mcasl
+- name: Instalar rust/cargo para el usuario admininstrador
   when: cargo_exists is failed
   become: true
+  become_user: "mcasl"
   shell: /tmp/sh.rustup.rs -y
   tags:
     - rust
 
-- name: Add cargo in .bashrc for the root user
+- name: Add cargo in .bashrc for the administrador user
   lineinfile:
-    path: /mcasl/.bashrc
+    path: /home/mcasl/.bashrc
     line: "[ -f ~/.cargo/env ] && source $HOME/.cargo/env"
     create: yes
     owner: mcasl
     group: mcasl
-    
 
+- name: Instalar community.general porque es necesario para ejecutar tareas de cargo como la instalación de paquetes
+  shell: ansible-galaxy collection install community.general
