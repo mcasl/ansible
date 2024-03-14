@@ -10,9 +10,9 @@
     cmd: bash /root/anaconda3.sh -b -p /opt/anaconda3
     creates: /opt/anaconda3
 
-- name: Actualizar el path del usuario practicas
+- name: Actualizar el path del usuario mcasl
   ansible.builtin.blockinfile:
-    path: /home/practicas/.bashrc
+    path: /home/mcasl/.bashrc
     block: |
       # >>> conda initialize >>>
       # !! Contents within this block are managed by 'conda init' !!
