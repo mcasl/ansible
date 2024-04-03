@@ -1,11 +1,11 @@
-- name: Comprobar si cargo está instalado  para el usuario mcasl
+- name: Check if cargo is installed
   become_user: "mcasl"
   shell: command -v cargo
   register: cargo_exists
   ignore_errors: yes
   failed_when: false
 
-- name: Descargar rust
+- name: Download rust
   when: cargo_exists is failed
   get_url:
     url: https://sh.rustup.rs
@@ -15,7 +15,7 @@
   tags:
     - rust
 
-- name: Instalar rust/cargo para el usuario admininstrador
+- name: Install rust/cargo for mcasl
   when: cargo_exists is failed
   become: true
   become_user: "mcasl"
@@ -23,7 +23,7 @@
   tags:
     - rust
 
-- name: Add cargo in .bashrc for the administrador user
+- name: Add cargo in .bashrc for mcasl
   lineinfile:
     path: /home/mcasl/.bashrc
     line: "[ -f ~/.cargo/env ] && source $HOME/.cargo/env"
