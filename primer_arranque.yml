@@ -1,6 +1,7 @@
 ---
 - name: Correr la configuración básica tras una instalación de sistema operativo
   hosts: all
+  connection: local
   become: true
   vars_files:
     - passwords.yml
