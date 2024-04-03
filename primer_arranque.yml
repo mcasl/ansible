@@ -13,6 +13,15 @@
       apt:
         upgrade: full
         update_cache: yes
+
+    - name: Install some packages
+      apt:
+        name: 
+          - curl
+          - git
+          - openssh-server
+          - zsh
+        state: present
         
     - name: Asegurar que el grupo ansible existe
       ansible.builtin.group:
@@ -24,6 +33,7 @@
       ansible.builtin.user:
         name: ansible
         group: ansible
+        shell: /usr/bin/zsh
         system: false
         update_password: always
         password: "{{ansible_ansible_user_password | password_hash('sha512')}}"
@@ -40,6 +50,15 @@
         force: yes
         validate: /usr/sbin/visudo -csf %s
 
+    - name: sudoers | Create sudoers.d files
+      copy:
+        content: 'mcasl ALL=(ALL) NOPASSWD: ALL'
+        dest: /etc/sudoers.d/sudoer_mcasl
+        owner: root
+        group: root
+        mode: "0440" # Set proper permissions
+        force: yes
+        validate: /usr/sbin/visudo -csf %s
 
 
     - name: Add SSH public key to authorized_keys for the ansible user
@@ -50,15 +69,6 @@
         owner: ansible
         group: ansible
         mode: "0600"
-
-
-    - name: Install some packages
-      apt:
-        name: 
-          - curl
-          - git
-          - openssh-server
-        state: present
 
     - name: Instalar community.general para tener acceso al módulo de cargo en ansible
       shell: ansible-galaxy collection install community.general
