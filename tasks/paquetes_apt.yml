@@ -13,4 +13,5 @@
       - wakeonlan
       - parallel
       - ethtool
+      - zsh
       
