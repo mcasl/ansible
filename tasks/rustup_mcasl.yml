@@ -25,7 +25,7 @@
 
 - name: Add cargo in .bashrc for mcasl
   lineinfile:
-    path: /home/mcasl/.bashrc
+    path: /home/mcasl/.zshrc
     line: "[ -f ~/.cargo/env ] && source $HOME/.cargo/env"
     create: yes
     owner: mcasl
