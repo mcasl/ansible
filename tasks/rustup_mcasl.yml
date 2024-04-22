@@ -6,7 +6,7 @@
   failed_when: false
 
 - name: Download rust
-  when: not cargo_exists|succeeded
+  when: cargo_exists is failed
   get_url:
     url: https://sh.rustup.rs
     dest: /tmp/sh.rustup.rs
@@ -16,7 +16,7 @@
     - rust
 
 - name: Install rust/cargo for mcasl
-  when: not cargo_exists|succeeded
+  when: cargo_exists is failed
   become: true
   become_user: "mcasl"
   shell: /tmp/sh.rustup.rs -y
