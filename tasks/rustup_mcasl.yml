@@ -6,7 +6,7 @@
   failed_when: false
 
 - name: Download rust
-  when: cargo_exists is failed
+  when: not cargo_exists|success
   get_url:
     url: https://sh.rustup.rs
     dest: /tmp/sh.rustup.rs
@@ -16,20 +16,28 @@
     - rust
 
 - name: Install rust/cargo for mcasl
-  when: cargo_exists is failed
+  when: not cargo_exists|success
   become: true
   become_user: "mcasl"
   shell: /tmp/sh.rustup.rs -y
   tags:
     - rust
 
-- name: Add cargo in .bashrc for mcasl
+- name: Add cargo in .zshrc for mcasl
   lineinfile:
     path: /home/mcasl/.zshrc
     line: "[ -f ~/.cargo/env ] && source $HOME/.cargo/env"
     create: yes
     owner: mcasl
     group: mcasl
-
+    
+- name: Add cargo in .bashrc for mcasl
+  lineinfile:
+    path: /home/mcasl/.bashrc
+    line: "[ -f ~/.cargo/env ] && source $HOME/.cargo/env"
+    create: yes
+    owner: mcasl
+    group: mcasl
+    
 - name: Instalar community.general porque es necesario para ejecutar tareas de cargo como la instalación de paquetes
   shell: ansible-galaxy collection install community.general
