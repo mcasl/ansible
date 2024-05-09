@@ -1,5 +1,16 @@
+
+- name: Add ansible ppa repository
+  ansible.builtin.apt_repository:
+    repo: ppa:ansible/ansible
+
+- name: Ejecutar apt --fix-broken como precaución
+  package:
+    state: fixed
+    
 - name: Instalar paquetes varios
   package:
+    update_cache: yes
+    state: latest
     name:
       - make
       - build-essential
@@ -12,7 +23,11 @@
       - tmux
       - wireguard
       - wakeonlan
+      - virtualbox
       - parallel
+      - net-tools
+      - nmap
+      - ansible
       - ethtool
       - zsh
       
