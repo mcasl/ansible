@@ -2,6 +2,7 @@
   package:
     name:
       - make
+      - build-essential
       - sshpass
       - pkg-config
       - libssl-dev
