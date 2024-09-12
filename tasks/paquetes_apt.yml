@@ -30,4 +30,5 @@
       - ansible
       - ethtool
       - zsh
+      - openjdk-17-jdk
       
