@@ -14,7 +14,6 @@
     name:
       - make
       - build-essential
-      - sshpass
       - pkg-config
       - libssl-dev
       - curl
@@ -27,9 +26,11 @@
       - parallel
       - net-tools
       - nmap
+      - openjdk-17-jdk
       - ansible
       - ethtool
+      - sshpass
       - zsh
-      - openjdk-17-jdk
       - ant
+      - fzf
       
