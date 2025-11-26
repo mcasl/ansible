@@ -12,6 +12,8 @@
     update_cache: yes
     state: latest
     name:
+      - rsync
+      - reptyr
       - make
       - build-essential
       - pkg-config
