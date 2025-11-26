@@ -1,6 +1,7 @@
 - name: Instalar paquetes de cargo para todos
   community.general.cargo:
-    name: 
+    name:
+      - yazi-build
       - lsd
       - bat
       - exa 
